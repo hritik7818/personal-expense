@@ -41,6 +41,9 @@ class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
 
   void _handleAnswer() {
+    if (_questionIndex + 1 > 1) {
+      return;
+    }
     setState(() {
       _questionIndex++;
     });
@@ -55,8 +58,22 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var _questions = [
-      "What is Your Favorite Color",
-      "What is Your Favorite Sport",
+      {
+        "question": "What is Your Favorite Color",
+        "answer": ["Blue", "Black", "Red", "Green"],
+      },
+      {
+        "question": "What is Your Favorite Sport",
+        "answer": ["Tennis", "Cricket", "Football", "Badminton"],
+      },
+      {
+        "question": "What is Your Favorite Car",
+        "answer": ["Lamborghini", "Audi", "Ferrari", "BMW"],
+      },
+      {
+        "question": "What is Your Hobby",
+        "answer": ["Singing", "Dancing", "Writing", "Playing"],
+      },
     ];
     // MaterialApp widget is a main widget. It make some setup to render the widget on the screen.
     // Text widget is displays text on the screen.
@@ -75,39 +92,21 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             Question(
-              _questions[_questionIndex],
+              _questions[_questionIndex]["question"] as String,
             ),
-            RaisedButton(
-              child: Text("Answer 1"),
-              // onPressed takes a function which has to be execute when the user press on this button.
-              // we should not be call the function here because when flutter read this flutter will call immediately.
-
-              // we can pass function to one onPressed in two ways:
-              // 1 - by define declared function name without parenthesis on onPressed using we point to the function not call it.
-              // 2 - by define anonymous function to the onPressed.
-
-              // assigning declared function name without parenthesis to onPressed.
-              onPressed: _handleAnswer,
+            Answer(
+              // we can pass a pointer to the function to a constructor of another widget or our custom widget.
+              //that function can have the implementation of setState().
+              selectHandler: _handleAnswer,
+              buttonText: "Answer 1",
             ),
-            RaisedButton(
-              child: Text("Answer 2"),
-
-              // assigning anonymous function to onPressed.
-              onPressed: () {
-                setState(() {
-                  _questionIndex++;
-                });
-                print("Answer 2");
-              },
+            Answer(
+              selectHandler: _handleAnswer,
+              buttonText: "Answer 2",
             ),
-            RaisedButton(
-              child: Text("Answer 3"),
-              onPressed: () {
-                setState(() {
-                  _questionIndex++;
-                });
-                print("Answer 3");
-              },
+            Answer(
+              selectHandler: _handleAnswer,
+              buttonText: "Answer 3",
             ),
           ],
         ),

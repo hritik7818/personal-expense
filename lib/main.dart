@@ -39,15 +39,49 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  final _questions = [
+    {
+      "question": "What is Your Favorite Color",
+      "answer": [
+        "Blue",
+        "Black",
+        "Red",
+        "Green",
+      ],
+    },
+    {
+      "question": "What is Your Favorite Sport",
+      "answer": [
+        "Tennis",
+        "Cricket",
+        "Football",
+        "Badminton",
+      ],
+    },
+    {
+      "question": "What is Your Favorite Car",
+      "answer": [
+        "Lamborghini",
+        "Audi",
+        "Ferrari",
+        "BMW",
+      ],
+    },
+    {
+      "question": "What is Your Hobby",
+      "answer": [
+        "Singing",
+        "Dancing",
+        "Writing",
+        "Playing",
+      ],
+    },
+  ];
 
   void _handleAnswer() {
-    if (_questionIndex + 1 > 1) {
-      return;
-    }
     setState(() {
       _questionIndex++;
     });
-    print(_questionIndex);
   }
 
   // Note:
@@ -57,24 +91,6 @@ class _MyAppState extends State<MyApp> {
   // build method takes one argument context which has a type of class BuildContext , context has a metadata about the Widget like where it is exist in widget tree.
   @override
   Widget build(BuildContext context) {
-    var _questions = [
-      {
-        "question": "What is Your Favorite Color",
-        "answer": ["Blue", "Black", "Red", "Green"],
-      },
-      {
-        "question": "What is Your Favorite Sport",
-        "answer": ["Tennis", "Cricket", "Football", "Badminton"],
-      },
-      {
-        "question": "What is Your Favorite Car",
-        "answer": ["Lamborghini", "Audi", "Ferrari", "BMW"],
-      },
-      {
-        "question": "What is Your Hobby",
-        "answer": ["Singing", "Dancing", "Writing", "Playing"],
-      },
-    ];
     // MaterialApp widget is a main widget. It make some setup to render the widget on the screen.
     // Text widget is displays text on the screen.
     return MaterialApp(
@@ -89,27 +105,46 @@ class _MyAppState extends State<MyApp> {
         // like Text ,AppBar , RaisedButton they all are visible widget ,they are use to display some content on the display
         // we also have some invisible widgets which are used to structure our visible widgets and give layout to it.
         // Column widget is a type of invisible widget it is used for give structure (in column wise/vertically) to our visible widgets which are Text and RaisedButton widget .
-        body: Column(
-          children: [
-            Question(
-              _questions[_questionIndex]["question"] as String,
-            ),
-            Answer(
-              // we can pass a pointer to the function to a constructor of another widget or our custom widget.
-              //that function can have the implementation of setState().
-              selectHandler: _handleAnswer,
-              buttonText: "Answer 1",
-            ),
-            Answer(
-              selectHandler: _handleAnswer,
-              buttonText: "Answer 2",
-            ),
-            Answer(
-              selectHandler: _handleAnswer,
-              buttonText: "Answer 3",
-            ),
-          ],
-        ),
+
+        //Note - we can use ternary operator for render Widget conditionally.
+        //     - we can also use map method for render Multiple Widget iteratively.
+        body: _questionIndex < _questions.length
+            ? Column(
+                children: [
+                  Question(
+                    // Flutter will not consider or not rely that _questions[_questionIndex]["question"] has a string value.
+                    // To Tell the Flutter _questions[_questionIndex]["question"] has a String value we have to write like this (as String)
+
+                    // Note - null safety
+                    // In Current versions of flutter the null safety is enabled. we have to aware of it.
+                    // null safety means when we pass a data to same function or constructor, flutter will not understand the type of data and assume it may be null and give error.
+                    // to resolve this issue , we that variable null acceptable which receives value.
+                    // or make simple variable and give a value with a mark and mark is an exclamation mark (!) which show it's not a null value .
+                    // or define the type of value when sending a data to same function or constructor
+                    // we can define type by using -> as {{data_type}} ex- as int.
+
+                    _questions[_questionIndex]["question"] as String,
+                  ),
+
+                  // Map Method is iterate on all the elements of the List and return a new list.
+                  // as it return a list , as children takes a list and here we put list inside a list ,we want a single list.
+                  //so we use  spreed Operator (...). spreed Operator remove all element of List and put all value of list as a individual elements.
+                  ...(_questions[_questionIndex]["answer"] as List<String>)
+                      .map((e) => unchangeable(
+                            selectHandler: _handleAnswer,
+                            buttonText: e,
+                          ))
+                      .toList()
+                ],
+              )
+            : Center(
+                child: Text(
+                  "You did it !",
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+              ),
       ),
     );
   }

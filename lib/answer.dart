@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
 
 //  creating custom answer button widget
 import 'package:flutter/material.dart';
 
-class unchangeable extends StatelessWidget {
+class Answer extends StatelessWidget {
   // creating a variable to take a callback function
   // that function has an implementation of setState().
   // this phenomena is known as state pushing.
@@ -20,10 +20,10 @@ class unchangeable extends StatelessWidget {
   // which mean value in right hand side is immutable (unchangeable).
   //a.push("white") is wrong.
 
-  final VoidCallback selectHandler; //declaring run-time constant value.
-  final String buttonText;
+  final selectHandler; //declaring run-time constant value.
+  final Map<String, Object> buttonData;
 
-  unchangeable({required this.selectHandler, required this.buttonText});
+  Answer({required this.selectHandler, required this.buttonData});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +33,12 @@ class unchangeable extends StatelessWidget {
       child: RaisedButton(
         color: Colors.blueAccent,
         child: Text(
-          buttonText,
+          buttonData["text"] as String,
           style: TextStyle(
             color: Colors.white,
           ),
         ),
-        onPressed: selectHandler,
+        onPressed: () => selectHandler(buttonData["score"]),
       ),
     );
   }

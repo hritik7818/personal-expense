@@ -4,8 +4,8 @@
 import "package:flutter/material.dart";
 
 //all data of question.dart file is accessible by import it.
-import "./question.dart";
-import "./answer.dart";
+import "./quiz.dart";
+import "./result.dart";
 
 // main function is an entry point for the application.
 void main() {
@@ -43,47 +43,102 @@ class _MyAppState extends State<MyApp> {
     {
       "question": "What is Your Favorite Color",
       "answer": [
-        "Blue",
-        "Black",
-        "Red",
-        "Green",
+        { 
+          "text": "Blue",
+          "score": 10,
+        },
+        {
+          "text": "Black",
+          "score": 30,
+        },
+        {
+          "text": "Red",
+          "score": 15,
+        },
+        {
+          "text": "Green",
+          "score": 5,
+        },
       ],
     },
     {
       "question": "What is Your Favorite Sport",
       "answer": [
-        "Tennis",
-        "Cricket",
-        "Football",
-        "Badminton",
+        {
+          "text": "Tennis",
+          "score": 10,
+        },
+        {
+          "text": "Cricket",
+          "score": 5,
+        },
+        {
+          "text": "Football",
+          "score": 5,
+        },
+        {
+          "text": "Badminton",
+          "score": 10,
+        },
       ],
     },
     {
       "question": "What is Your Favorite Car",
       "answer": [
-        "Lamborghini",
-        "Audi",
-        "Ferrari",
-        "BMW",
+        {
+          "text": "Lamborghini",
+          "score": 5,
+        },
+        {
+          "text": "Audi",
+          "score": 5,
+        },
+        {
+          "text": "Ferrari",
+          "score": 5,
+        },
+        {
+          "text": "BMW",
+          "score": 5,
+        },
       ],
     },
     {
       "question": "What is Your Hobby",
       "answer": [
-        "Singing",
-        "Dancing",
-        "Writing",
-        "Playing",
+        {
+          "text": "Singing",
+          "score": 10,
+        },
+        {
+          "text": "Dancing",
+          "score": 5,
+        },
+        {
+          "text": "Writing",
+          "score": 5,
+        },
+        {
+          "text": "Playing",
+          "score": 5,
+        },
       ],
     },
   ];
-
-  void _handleAnswer() {
+  int _totalScore = 0;
+  void _handleAnswer(int score) {
+    _totalScore += score;
     setState(() {
       _questionIndex++;
     });
   }
 
+  void _resetHandler() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
   // Note:
   // When use or define a widget we basically create an object of a class (widget) and in that class their is a build method which is automatically called by the flutter and it return a widget that is displayed on the screen.
 
@@ -109,42 +164,11 @@ class _MyAppState extends State<MyApp> {
         //Note - we can use ternary operator for render Widget conditionally.
         //     - we can also use map method for render Multiple Widget iteratively.
         body: _questionIndex < _questions.length
-            ? Column(
-                children: [
-                  Question(
-                    // Flutter will not consider or not rely that _questions[_questionIndex]["question"] has a string value.
-                    // To Tell the Flutter _questions[_questionIndex]["question"] has a String value we have to write like this (as String)
-
-                    // Note - null safety
-                    // In Current versions of flutter the null safety is enabled. we have to aware of it.
-                    // null safety means when we pass a data to same function or constructor, flutter will not understand the type of data and assume it may be null and give error.
-                    // to resolve this issue , we that variable null acceptable which receives value.
-                    // or make simple variable and give a value with a mark and mark is an exclamation mark (!) which show it's not a null value .
-                    // or define the type of value when sending a data to same function or constructor
-                    // we can define type by using -> as {{data_type}} ex- as int.
-
-                    _questions[_questionIndex]["question"] as String,
-                  ),
-
-                  // Map Method is iterate on all the elements of the List and return a new list.
-                  // as it return a list , as children takes a list and here we put list inside a list ,we want a single list.
-                  //so we use  spreed Operator (...). spreed Operator remove all element of List and put all value of list as a individual elements.
-                  ...(_questions[_questionIndex]["answer"] as List<String>)
-                      .map((e) => unchangeable(
-                            selectHandler: _handleAnswer,
-                            buttonText: e,
-                          ))
-                      .toList()
-                ],
-              )
-            : Center(
-                child: Text(
-                  "You did it !",
-                  style: TextStyle(
-                    fontSize: 30,
-                  ),
-                ),
-              ),
+            ? Quiz(
+                handleAnswer: _handleAnswer,
+                questionIndex: _questionIndex,
+                questions: _questions)
+            : Result(_totalScore, _resetHandler),
       ),
     );
   }

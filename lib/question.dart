@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 
@@ -18,8 +18,7 @@ class Question extends StatelessWidget {
         questionText,
         style: TextStyle(
           fontSize: 24,
-          color: Colors.teal,
-          backgroundColor: Colors.black,
+          color: Color.fromARGB(255, 19, 39, 37),
         ),
         textAlign: TextAlign.center,
       ),

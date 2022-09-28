@@ -25,7 +25,7 @@ void main() {
 // stateless widget is created by simply create a single class which extends statelessWidget.
 
 // stateless widget is created by create a two classes -
-// first class extends statelessWidget and has override function createState which return a object or widget on state class.
+// first class extends statelessWidget and has override function "createState" which return a object or widget of state class.
 // second class extends State with generic type of first class and in this class we can use setState() method. setState method accept an anonymous function.
 
 // In That widget setState() method is called ,the build method of that widget is called again.when user interact with UI ,to make changes in our UI ,we make changes in properties of widgets in setState() method so that build method runs again with updated properties.so UI Updates.
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     {
       "question": "What is Your Favorite Color",
       "answer": [
-        { 
+        {
           "text": "Blue",
           "score": 10,
         },
@@ -155,9 +155,10 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text("My First App"),
         ),
-        // Body named argument take a widget which is rendered on the screen.
+        // Body named argument take a widget which is rendered on the main screen.
+
         // their are some visible widgets and some invisible widgets.
-        // like Text ,AppBar , RaisedButton they all are visible widget ,they are use to display some content on the display
+        // like Text, AppBar, RaisedButton they all are visible widget, they are use to display some content on the display
         // we also have some invisible widgets which are used to structure our visible widgets and give layout to it.
         // Column widget is a type of invisible widget it is used for give structure (in column wise/vertically) to our visible widgets which are Text and RaisedButton widget .
 

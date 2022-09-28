@@ -27,7 +27,7 @@ class Quiz extends StatelessWidget {
           // Note - null safety
           // In Current versions of flutter the null safety is enabled. we have to aware of it.
           // null safety means when we pass a data to same function or constructor, flutter will not understand the type of data and assume it may be null and give error.
-          // to resolve this issue , we that variable null acceptable which receives value.
+          // to resolve this issue , we  make that variable null acceptable which receives value.
           // or make simple variable and give a value with a mark and mark is an exclamation mark (!) which show it's not a null value .
           // or define the type of value when sending a data to same function or constructor
           // we can define type by using -> as {{data_type}} ex- as int.

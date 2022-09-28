@@ -38,6 +38,8 @@ class Answer extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+
+        // Note - whenever a function with argument is have to passed to onPressed ,we have to give anonymous function to onPressed and call that function in the body of anonymous function.
         onPressed: () => selectHandler(buttonData["score"]),
       ),
     );
